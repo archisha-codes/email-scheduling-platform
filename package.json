@@ -1,0 +1,24 @@
+{
+  "name": "reachinbox-email-scheduler",
+  "version": "1.0.0",
+  "description": "Production-grade Full-Stack Email Job Scheduler & Dashboard for ReachInbox",
+  "main": "index.js",
+  "scripts": {
+    "setup": "npm --prefix backend install && npm --prefix frontend install",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:worker": "npm --prefix backend run worker",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "test": "npm --prefix backend run test"
+  },
+  "keywords": [
+    "reachinbox",
+    "bullmq",
+    "typescript",
+    "express",
+    "react",
+    "email-scheduler"
+  ],
+  "author": "ReachInbox Candidate",
+  "license": "ISC"
+}
