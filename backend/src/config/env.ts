@@ -5,10 +5,16 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 dotenv.config();
 
+const rawClientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
+const formattedClientUrl =
+  rawClientUrl.startsWith('http://') || rawClientUrl.startsWith('https://')
+    ? rawClientUrl
+    : `https://${rawClientUrl}`;
+
 export const config = {
   port: parseInt(process.env.PORT || '5000', 10),
   nodeEnv: process.env.NODE_ENV || 'development',
-  clientUrl: process.env.CLIENT_URL || 'http://localhost:3000',
+  clientUrl: formattedClientUrl,
   databaseUrl: process.env.DATABASE_URL || 'postgresql://postgres:postgrespassword@localhost:5432/reachinbox_email_scheduler?schema=public',
   redisHost: process.env.REDIS_HOST || '127.0.0.1',
   redisPort: parseInt(process.env.REDIS_PORT || '6379', 10),
