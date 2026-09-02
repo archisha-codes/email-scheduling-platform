@@ -67,8 +67,10 @@ async function startServer(): Promise<void> {
     logger.warn('Elasticsearch initialization deferred:', err);
   });
 
-  // Perform startup reconciliation for restart persistence safety
-  await performStartupReconciliation();
+  // Import worker creator for embedded execution inside free web service
+  const { createEmailWorker } = await import('./queue/worker');
+  const worker = createEmailWorker();
+  logger.info(`⚡ BullMQ Worker listening on queue 'email-queue' (Embedded execution mode)`);
 
   const server = app.listen(config.port, () => {
     logger.info(`================================================================`);
