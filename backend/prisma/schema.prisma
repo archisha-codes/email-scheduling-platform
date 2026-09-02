@@ -1,20 +1,10 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-enum EmailStatus {
-  SCHEDULED
-  QUEUED
-  PROCESSING
-  SENT
-  FAILED
-  RATE_LIMITED
-  CANCELLED
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -25,8 +15,8 @@ model User {
   avatarUrl        String?
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
-  senders          Sender[]
   emails           Email[]
+  senders          Sender[]
   slackIntegration SlackIntegration?
 
   @@map("users")
@@ -35,7 +25,6 @@ model User {
 model Sender {
   id                    String   @id @default(uuid())
   userId                String
-  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   email                 String
   displayName           String
   smtpHost              String   @default("smtp.ethereal.email")
@@ -48,6 +37,7 @@ model Sender {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
   emails                Email[]
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, email])
   @@map("senders")
@@ -56,9 +46,7 @@ model Sender {
 model Email {
   id                String      @id @default(uuid())
   userId            String
-  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   senderId          String
-  sender            Sender      @relation(fields: [senderId], references: [id], onDelete: Cascade)
   recipient         String
   subject           String
   body              String      @db.Text
@@ -71,6 +59,8 @@ model Email {
   bullMqJobId       String?     @unique
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
+  sender            Sender      @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, status])
   @@index([senderId, scheduledAt])
@@ -79,17 +69,27 @@ model Email {
 }
 
 model SlackIntegration {
-  id            String   @id @default(uuid())
-  userId        String   @unique
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  slackTeamId   String
-  slackTeamName String
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  slackTeamId    String
+  slackTeamName  String
   botAccessToken String
-  channelId     String?
-  channelName   String?
-  webhookUrl    String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  channelId      String?
+  channelName    String?
+  webhookUrl     String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("slack_integrations")
+}
+
+enum EmailStatus {
+  SCHEDULED
+  QUEUED
+  PROCESSING
+  SENT
+  FAILED
+  RATE_LIMITED
+  CANCELLED
 }

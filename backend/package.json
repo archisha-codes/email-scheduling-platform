@@ -4,6 +4,8 @@
   "description": "Backend API & Worker process for ReachInbox Email Scheduler",
   "main": "dist/server.js",
   "scripts": {
+    "start": "node dist/server.js",
+    "start:worker": "node dist/worker.js",
     "dev": "nodemon --watch src --ext ts --exec ts-node src/server.ts",
     "worker": "nodemon --watch src --ext ts --exec ts-node src/worker.ts",
     "build": "tsc && prisma generate",
