@@ -50,10 +50,10 @@ export async function initializeElasticsearchIndex(): Promise<boolean> {
 
 export async function checkElasticsearchConnection(): Promise<boolean> {
   try {
-    const ping = await esClient.ping();
+    const ping = await esClient.ping({}, { requestTimeout: 1000 });
     return ping;
   } catch (error) {
-    logger.warn('Elasticsearch ping failed:', error);
+    logger.warn('Elasticsearch ping failed (optional service):', error);
     return false;
   }
 }
