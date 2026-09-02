@@ -12,6 +12,28 @@ This repository contains the complete full-stack implementation for the **ReachI
 - **Slack OAuth Alerts:** Triggers automated Slack notifications when a sender's rate limit is hit.
 - **Elasticsearch Search Engine:** Sent and scheduled emails are indexed in Elasticsearch with multi-field full-text search, with an automatic fallback to PostgreSQL `ILIKE`.
 
+## Screenshots
+
+### Login
+
+![ReachInbox Login](frontend/assets/login-page.png)
+
+### Dashboard
+
+![ReachInbox Dashboard](frontend/assets/dashboard.png)
+
+### Processing
+
+![Email Processing](frontend/assets/processing.png)
+
+### BullMQ Dashboard
+
+![BullMQ Dashboard](frontend/assets/bullmq-dashboard.png)
+
+### Compose Email
+
+![Compose Email](frontend/assets/compose-email.png)
+
 ---
 
 ## 🚀 Quick Start Guide
