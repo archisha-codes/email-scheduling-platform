@@ -1,4 +1,4 @@
-# ReachInbox — Enterprise Production-Grade Email Job Scheduler & Dashboard
+# ReachInbox - Enterprise Production-Grade Email Job Scheduler & Dashboard
 
 This repository contains the complete full-stack implementation for the **ReachInbox Hiring Assignment**. It is a restart-safe, multi-tenant email job scheduler and SaaS monitoring dashboard built with TypeScript, Express.js, BullMQ, Redis, PostgreSQL, Prisma, Elasticsearch, Nodemailer (Ethereal Mail), React, Vite, and Tailwind CSS.
 
@@ -134,13 +134,13 @@ Open your browser at:
 
 | Feature | Backend Source Code | Frontend Source Code |
 | :--- | :--- | :--- |
-| **No-Cron BullMQ Queue** | `backend/src/queue/emailQueue.ts` | — |
-| **Worker Concurrency & Lifecycle** | `backend/src/queue/worker.ts` | — |
-| **Atomic Redis Rate Limiter** | `backend/src/services/rateLimiterService.ts` | — |
+| **No-Cron BullMQ Queue** | `backend/src/queue/emailQueue.ts` | - |
+| **Worker Concurrency & Lifecycle** | `backend/src/queue/worker.ts` | - |
+| **Atomic Redis Rate Limiter** | `backend/src/services/rateLimiterService.ts` | - |
 | **Slack OAuth & Alerts** | `backend/src/services/slackService.ts` | `frontend/src/pages/SettingsPage.tsx` |
 | **Elasticsearch & Search Fallback** | `backend/src/services/elasticsearchService.ts` | `frontend/src/components/dashboard/SearchBar.tsx` |
 | **Google OAuth & JWT Sessions** | `backend/src/services/authService.ts` | `frontend/src/pages/LoginPage.tsx` |
-| **CSV Lead Parser** | — | `frontend/src/hooks/useCsvParser.ts` |
+| **CSV Lead Parser** | - | `frontend/src/hooks/useCsvParser.ts` |
 | **Live Queue Dashboard** | `backend/src/app.ts` (`/admin/queues`) | `frontend/src/components/layout/Header.tsx` |
 
 ---
