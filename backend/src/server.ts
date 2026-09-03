@@ -25,22 +25,21 @@ async function performStartupReconciliation(): Promise<void> {
       },
     });
 
-    // 2. Sync past-due SCHEDULED emails from past seed data/sessions
+    // 2. Reset past-due SCHEDULED emails back to QUEUED for worker execution
     const pastDueEmails = await prisma.email.updateMany({
       where: {
         status: EmailStatus.SCHEDULED,
         scheduledAt: { lt: now },
       },
       data: {
-        status: EmailStatus.SENT,
-        sentAt: now,
+        status: EmailStatus.QUEUED,
         updatedAt: now,
       },
     });
 
     if (staleProcessingEmails.count > 0 || pastDueEmails.count > 0) {
       logger.info(
-        `Reconciliation complete: Reset ${staleProcessingEmails.count} stale PROCESSING emails and synced ${pastDueEmails.count} past-due SCHEDULED emails.`
+        `Reconciliation complete: Reset ${staleProcessingEmails.count} stale PROCESSING emails and ${pastDueEmails.count} past-due SCHEDULED emails to QUEUED.`
       );
     } else {
       logger.info('Reconciliation complete: All email queue states synced.');
@@ -59,7 +58,7 @@ async function startServer(): Promise<void> {
   ]);
 
   if (!dbOk || !redisOk) {
-    logger.warn('WARNING: System starting with degraded infrastructure. Ensure Docker containers are running.');
+    logger.warn('WARNING: System starting with degraded infrastructure. Ensure Database & Redis are reachable.');
   }
 
   // Initialize Elasticsearch background index asynchronously
@@ -67,10 +66,8 @@ async function startServer(): Promise<void> {
     logger.warn('Elasticsearch initialization deferred:', err);
   });
 
-  // Import worker creator for embedded execution inside free web service
-  const { createEmailWorker } = await import('./queue/worker');
-  const worker = createEmailWorker();
-  logger.info(`⚡ BullMQ Worker listening on queue 'email-queue' (Embedded execution mode)`);
+  // Perform startup reconciliation for restart persistence safety
+  await performStartupReconciliation();
 
   const server = app.listen(config.port, () => {
     logger.info(`================================================================`);

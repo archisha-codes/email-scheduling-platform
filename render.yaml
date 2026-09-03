@@ -1,0 +1,81 @@
+services:
+  # ---------------------------------------------------------------------------
+  # SERVICE 1: Express.js Web API Service
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: reachinbox-backend-api-v1
+    runtime: node
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: WORKER_CONCURRENCY
+        value: 10
+      - key: DEFAULT_MIN_DELAY_MS
+        value: 2000
+      - key: DEFAULT_HOURLY_LIMIT
+        value: 100
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: ELASTICSEARCH_NODE
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ENCRYPTION_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_CALLBACK_URL
+        sync: false
+      - key: SLACK_CLIENT_ID
+        sync: false
+      - key: SLACK_CLIENT_SECRET
+        sync: false
+      - key: SLACK_REDIRECT_URI
+        sync: false
+
+  # ---------------------------------------------------------------------------
+  # SERVICE 2: BullMQ Background Worker Service
+  # ---------------------------------------------------------------------------
+  - type: worker
+    name: reachinbox-bullmq-worker
+    runtime: node
+    region: oregon
+    plan: starter # Render background worker service
+    rootDir: backend
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm run worker
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: WORKER_CONCURRENCY
+        value: 10
+      - key: DEFAULT_MIN_DELAY_MS
+        value: 2000
+      - key: DEFAULT_HOURLY_LIMIT
+        value: 100
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: ELASTICSEARCH_NODE
+        sync: false
+      - key: ENCRYPTION_SECRET
+        sync: false
+      - key: SLACK_CLIENT_ID
+        sync: false
+      - key: SLACK_CLIENT_SECRET
+        sync: false
