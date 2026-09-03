@@ -4,7 +4,9 @@ This repository contains the complete full-stack implementation for the **ReachI
 
 ---
 backend - https://reachinbox-backend-api-v1.onrender.com/
+
 frontend - https://email-scheduling-platform-ai25.vercel.app/
+
 bullboard queue dashboard - https://reachinbox-backend-api-v1.onrender.com/admin/queues
 ## ⚡ Absolute Design Guarantees
 
