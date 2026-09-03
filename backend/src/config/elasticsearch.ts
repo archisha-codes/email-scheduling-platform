@@ -4,7 +4,8 @@ import { logger } from '../utils/logger';
 
 export const esClient = new Client({
   node: config.elasticsearchNode,
-});
+  enableProductCheck: false,
+} as any);
 
 export const EMAIL_INDEX_NAME = 'reachinbox_emails_v1';
 
