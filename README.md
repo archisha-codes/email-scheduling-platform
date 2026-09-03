@@ -3,7 +3,9 @@
 This repository contains the complete full-stack implementation for the **ReachInbox Hiring Assignment**. It is a restart-safe, multi-tenant email job scheduler and SaaS monitoring dashboard built with TypeScript, Express.js, BullMQ, Redis, PostgreSQL, Prisma, Elasticsearch, Nodemailer (Ethereal Mail), React, Vite, and Tailwind CSS.
 
 ---
-
+backend - https://reachinbox-backend-api-v1.onrender.com/
+frontend - https://email-scheduling-platform-ai25.vercel.app/
+bullboard queue dashboard - https://reachinbox-backend-api-v1.onrender.com/admin/queues
 ## ⚡ Absolute Design Guarantees
 
 - **Zero Cron Jobs:** 100% of delayed scheduling relies natively on **BullMQ delayed jobs backed by Redis sorted sets (`ZSET`)**. No `cron`, `node-cron`, `agenda`, or polling loops.
